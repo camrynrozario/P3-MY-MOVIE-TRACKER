@@ -1,0 +1,85 @@
+<%- include('layout/header') %>
+
+<div class="container mt-4">
+    <h2>Search Movies</h2>
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search for movies...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" id="searchButton">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="searchResults" class="row"></div>
+</div>
+
+<script>
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const searchResults = document.getElementById('searchResults');
+
+function performSearch() {
+    const query = searchInput.value;
+    if (query.length > 2) {
+        fetch(`/api/search?query=${encodeURIComponent(query)}`)
+            .then(res => res.json())
+            .then(data => {
+                searchResults.innerHTML = data.results.map(movie => `
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" 
+                                 class="card-img-top" 
+                                 alt="${movie.title}"
+                                 onerror="this.src='https://via.placeholder.com/500x750?text=No+Poster'">
+                            <div class="card-body">
+                                <h5 class="card-title">${movie.title}</h5>
+                                <p class="card-text">
+                                    <small class="text-muted">Release Date: ${movie.release_date || 'N/A'}</small>
+                                </p>
+                                <p class="card-text">${movie.overview ? movie.overview.substring(0, 150) + '...' : 'No overview available'}</p>
+                                <button class="btn btn-primary" 
+                                        onclick="addToWatchlist(${JSON.stringify(movie).replace(/"/g, '&quot;')})">
+                                    Add to Watch List
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            });
+    }
+}
+
+searchButton.addEventListener('click', performSearch);
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        performSearch();
+    }
+});
+
+function addToWatchlist(movie) {
+    fetch('/add-to-watchlist', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            tmdbId: movie.id,
+            title: movie.title,
+            posterPath: movie.poster_path,
+            releaseDate: movie.release_date,
+            overview: movie.overview
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        if (data.type === 'success') {
+            window.location.href = '/';
+        }
+    });
+}
+</script>
+
+<%- include('layout/footer') %>

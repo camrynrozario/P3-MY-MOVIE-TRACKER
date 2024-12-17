@@ -1,0 +1,466 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: #001D3D;
+    color: white;
+}
+
+/* Container */
+.container {
+    max-width: 1600px;
+    margin: 0.25rem 40px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 5px;
+}
+
+/* Movie Grid */
+.movie-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    justify-content: start;
+    margin-top: 10px;
+    margin-bottom: 1rem;
+}
+
+/* Movie Card */
+.movie-card {
+    width: 100%;
+    height: 650px;
+    background: #fff;
+    overflow: hidden;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+}
+
+
+/* Card Image */
+.movie-card img {
+    width: calc(100% - 20px);
+    height: 400px;
+    object-fit: cover;
+    margin: 10px;
+    border-radius: 0;
+}
+
+/* Card Info */
+.movie-card .movie-info {
+    padding: 15px;
+    flex-grow: 1;
+    max-height: 120px;
+    overflow: hidden;
+}
+
+/* Card title */
+.movie-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-style: normal;
+}
+
+/* Keep other text at 500 weight */
+.movie-card p {
+    font-size: 16px;
+    color: #000;
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.movie-card .movie-overview {
+    font-size: 14px;
+    color: #000;
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* Movie actions container */
+.movie-card .movie-actions {
+    padding: 25px 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: auto;
+}
+
+/* Update status select styles */
+.status-select {
+    padding: 12px 30px 12px 12px;
+    border: 1px solid #6D6D6D;
+    border-radius: 25px;
+    background: #F4F4F4 url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236D6D6D' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 8px center;
+    background-size: 20px;
+    color: #6D6D6D;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 220px;
+    height: 45px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    text-transform: uppercase;
+    text-align: center;
+    text-align-last: center;
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* Update add form styles */
+.add-form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Remove the add button styles since we're not using it anymore */
+.add-form .add-btn {
+    display: none;
+}
+
+/* Search form */
+.search-container {
+    grid-column: 2 / 12;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    z-index: 1;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 15px 20px 15px 45px;
+
+    border-radius: 24px;
+    font-size: 1.1rem;
+
+}
+
+.search-container input:focus {
+    outline: none;
+  
+}
+
+.suggestions-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+
+    margin-top: 5px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.suggestion-item {
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+    background-color: #f5f5f5;
+}
+
+.suggestion-poster {
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.suggestion-info {
+    flex: 1;
+}
+
+.suggestion-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.suggestion-year {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.search-btn {
+    padding: 15px 30px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+    transition: background 0.3s;
+}
+
+.search-btn:hover {
+    background: #2980b9;
+}
+
+/* Messages */
+.error-message {
+    color: #e74c3c;
+    padding: 10px;
+    margin: 10px 0;
+    background: #fde8e8;
+    border-radius: 4px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    color: white;
+}
+
+/* Header actions */
+.header-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+/* Section title */
+.section-title {
+    grid-column: 1 / -1;
+    font-size: 1.5rem;
+    color: white;
+    margin: 0.5rem 0 0.25rem 0;
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* Navbar */
+.navbar {
+    background: #001D3D;
+    padding: 1rem 0;
+    margin-bottom: 0.5rem;
+    margin-bottom: 40px;
+}
+
+.nav-container {
+    max-width: 1600px;
+    margin: 0 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-brand {
+    color: #fff;
+    text-decoration: none;
+    font-size: 3rem;
+    font-weight: 400;
+    white-space: nowrap;
+    font-family: "Instrument Serif", serif;
+    font-style: italic;
+}
+
+
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+    color: #3498db;
+}
+
+/* No movies message */
+.no-movies {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: white;
+    font-size: 1.1em;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* Status select styles */
+select {
+    padding: 12px 30px 12px 12px;
+    border: 1px solid #6D6D6D;
+    border-radius: 25px;
+    background: #F4F4F4 url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236D6D6D' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 8px center;
+    background-size: 20px;
+    color: #6D6D6D;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 220px;
+    height: 45px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    text-transform: uppercase;
+    text-align: center;
+    text-align-last: center;
+}
+
+/* Home page select styles */
+select:has(option[value="want_to_watch"]:checked) {
+    background: #e8f5e9 url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232e7d32' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 8px center;
+    background-size: 20px;
+    border-color: #2e7d32;
+    color: #2e7d32;
+}
+
+select:has(option[value="currently_watching"]:checked) {
+    background: #FFF5C6 url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23D3AF00' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 8px center;
+    background-size: 20px;
+    border-color: #D3AF00;
+    color: #D3AF00;
+}
+
+select:has(option[value="finished_watching"]:checked) {
+    background: #D7F8FF url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300B4D8' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 8px center;
+    background-size: 20px;
+    border-color: #00B4D8;
+    color: #00B4D8;
+}
+
+/* Dropdown menu styles */
+select option {
+    border-radius: 0;
+    background: white;
+  
+    padding: 12px;
+    border: none;
+}
+
+select option:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+
+/* Delete button styles */
+.delete-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+}
+
+.delete-btn:hover {
+    background: #ffcdd2;
+}
+
+/* Header search container */
+.nav-container .search-container {
+    flex: 1;
+    margin: 0;
+}
+
+.nav-container .search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.nav-container input {
+    width: 100%;
+    padding: 12px 20px 12px 45px;
+    border-radius: 50px;
+    border: none;
+    font-size: 1rem;
+    background: white;
+    color: #333;
+    box-shadow: none;
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.nav-container input::placeholder {
+    color: #666;
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.nav-container .search-icon {
+    color: #666;
+}
+
+/* Search Results heading */
+.header-actions h2 {
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+}

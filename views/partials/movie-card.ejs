@@ -1,0 +1,39 @@
+<div class="movie-card">
+    <img src="<%= movie.poster_path || movie.posterPath ? 
+        `https://image.tmdb.org/t/p/w500${movie.poster_path || movie.posterPath}` : 
+        '/images/no-poster.jpg' %>" 
+        alt="<%= movie.title %> poster"
+        onerror="this.onerror=null; this.src='/images/no-poster.jpg';"
+        loading="lazy">
+    <div class="movie-info">
+        <h4><%= movie.title %></h4>
+        <p><%= movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A' %></p>
+        <p class="movie-overview"><%= movie.overview ? movie.overview.substring(0, 100) + '...' : 'No overview available' %></p>
+    </div>
+    <div class="movie-actions">
+        <% if (showStatusUpdate) { %>
+            <select onchange="updateMovieStatus('<%= movie._id %>', this.value)">
+                <option value="want_to_watch" <%= movie.status === 'want_to_watch' ? 'selected' : '' %>>Want to Watch</option>
+                <option value="currently_watching" <%= movie.status === 'currently_watching' ? 'selected' : '' %>>Currently Watching</option>
+                <option value="finished_watching" <%= movie.status === 'finished_watching' ? 'selected' : '' %>>Already Watched</option>
+            </select>
+            <button onclick="deleteMovie('<%= movie._id %>')" class="delete-btn">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        <% } else { %>
+            <form action="/add-to-watchlist" method="POST" class="add-form">
+                <input type="hidden" name="tmdbId" value="<%= movie.id %>">
+                <input type="hidden" name="title" value="<%= movie.title %>">
+                <input type="hidden" name="posterPath" value="<%= movie.poster_path %>">
+                <input type="hidden" name="releaseDate" value="<%= movie.release_date %>">
+                <input type="hidden" name="overview" value="<%= movie.overview %>">
+                <select name="status" class="status-select" onchange="this.form.submit()">
+                    <option value="" disabled selected>CHOOSE STATUS</option>
+                    <option value="currently_watching">CURRENTLY WATCHING</option>
+                    <option value="want_to_watch">WANT TO WATCH</option>
+                    <option value="finished_watching">ALREADY WATCHED</option>
+                </select>
+            </form>
+        <% } %>
+    </div>
+</div>

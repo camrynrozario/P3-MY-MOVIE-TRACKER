@@ -1,0 +1,75 @@
+<%- include('layout/header') %>
+
+<div class="container">
+    <% if (movies.currently_watching.length > 0) { %>
+        <h3 class="section-title">Currently Watching</h3>
+        <div class="movie-grid">
+            <% movies.currently_watching.forEach(movie => { %>
+                <%- include('partials/movie-card', { movie, showStatusUpdate: true }) %>
+            <% }) %>
+        </div>
+    <% } %>
+
+    <% if (movies.want_to_watch.length > 0) { %>
+        <h3 class="section-title">Want to Watch</h3>
+        <div class="movie-grid">
+            <% movies.want_to_watch.forEach(movie => { %>
+                <%- include('partials/movie-card', { movie, showStatusUpdate: true }) %>
+            <% }) %>
+        </div>
+    <% } %>
+
+    <% if (movies.finished_watching.length > 0) { %>
+        <h3 class="section-title">Already Watched</h3>
+        <div class="movie-grid">
+            <% movies.finished_watching.forEach(movie => { %>
+                <%- include('partials/movie-card', { movie, showStatusUpdate: true }) %>
+            <% }) %>
+        </div>
+    <% } %>
+
+    <% if (!movies.want_to_watch.length && !movies.currently_watching.length && !movies.finished_watching.length) { %>
+        <p class="no-movies">No movies in your watchlist yet. Try searching for movies to add!</p>
+    <% } %>
+</div>
+
+<script>
+async function updateMovieStatus(movieId, newStatus) {
+    try {
+        const response = await fetch(`/update-status/${movieId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: newStatus })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to update status');
+        }
+
+        const result = await response.json();
+        if (result.type === 'success') {
+            window.location.reload();
+        } else {
+            alert(result.message || 'Failed to update movie status');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to update movie status');
+    }
+}
+
+function deleteMovie(movieId) {
+    if (confirm('Are you sure you want to remove this movie?')) {
+        try {
+            window.location.href = `/delete/${movieId}`;
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to delete movie');
+        }
+    }
+}
+</script>
+
+<%- include('layout/footer') %>
